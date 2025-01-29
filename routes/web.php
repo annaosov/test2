@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -18,3 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 /* Выдача списка товаров */
 Route::get('/catalog', [ProductController::class, 'index']);
+
+/* Выдача списка заказов */
+Route::get(' /create-order/{order_id}', [OrderController::class, 'create']);
+
