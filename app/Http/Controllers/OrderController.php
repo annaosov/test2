@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\OrderItem;
 use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -16,7 +17,6 @@ class OrderController extends Controller
         ->select('products.name', 'order_items.quantity')->get();
 
         $products = Product::all();
-
         foreach($order_items as $item) {
             foreach($products as $product) {
                 if ($item->name == $product->name) {
@@ -27,5 +27,12 @@ class OrderController extends Controller
         }
 
         return response()->json($order_items);
+    }
+
+    public function approve($order_id)
+    {
+        $order = Order::where('id', $order_id)->first();
+        $order->status = 2;
+        $order->save();
     }
 }

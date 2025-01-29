@@ -20,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 /* Выдача списка товаров */
 Route::get('/catalog', [ProductController::class, 'index']);
 
-/* Выдача списка заказов */
+/* Выдача по id заказа товаров и их кол-ва, резервирование товара из заказа*/
 Route::get(' /create-order/{order_id}', [OrderController::class, 'create']);
+
+/* Выдача по id заказа товаров и их кол-ва, резервирование товара из заказа*/
+Route::get(' /approve-order/{order_id}', [OrderController::class, 'approve']);
 
