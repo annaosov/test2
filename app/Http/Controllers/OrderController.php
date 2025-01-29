@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -31,8 +32,22 @@ class OrderController extends Controller
 
     public function approve($order_id)
     {
+        $order_amount = 0.0;
+        $order_items = OrderItem::where('order_id', $order_id)->get();
+        foreach($order_items as $item) {
+            $order_amount = $order_amount + ($item->price * $item->quantity); 
+        }
+        
         $order = Order::where('id', $order_id)->first();
-        $order->status = 2;
-        $order->save();
+
+        $user = User::where('id', $order->user_id)->first();
+        if ($user->balance >= $order_amount) {
+            $user->balance = $user->balance - $order_amount;
+            $user->save();
+            $order->status = 2;
+            $order->save();
+        } else {
+            return 'У вас недостаточно средств на балансе для заказа';
+        }
     }
 }
