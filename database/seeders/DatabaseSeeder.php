@@ -24,5 +24,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call(UserTableSeeder::class);
         $this->command->info('Данные загружены в таблицу покупателей.');
+
+        $this->call(OrderTableSeeder::class);
+        $this->command->info('Данные загружены в таблицу заказов.');
+
+        $this->call(OrderItemTableSeeder::class);
+        $this->command->info('Данные загружены в таблицу заказанных товаров.');
     }
 }
